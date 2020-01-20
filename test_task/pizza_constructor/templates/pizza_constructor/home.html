@@ -1,0 +1,25 @@
+{% load groupper %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+<body>
+    <form action="" method="POST">{% csrf_token %}
+        <h2>Тесто</h2>
+        <input type="radio" name="pastry" value="Белое" checked>Белое
+        <input type="radio" name="pastry" value="Темное">Темное
+        {{ formset.management_form }}
+        {% group_by_category formset as groupped_forms %}
+        {% for category,forms in groupped_forms %}
+             <h1 align="left">{{ category.title }}</h1>
+            {% for form in forms %}
+                <span>{{ form.initial.name }} ({{form.initial.price}}$)</span>
+                {{form.as_p}}
+            {% endfor %}
+        {% endfor %}
+        <button type="submit">Оформить заказ</button>
+    </form>
+</body>
+</html>
